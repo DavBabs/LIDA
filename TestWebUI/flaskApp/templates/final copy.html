@@ -202,7 +202,7 @@
             // Update UI
             const statusId = device + '-status';
             const badge = document.getElementById(statusId);
-            if (action === '1') {
+            if (action === 'on' || action === 'extend') {
                 badge.className = 'badge rounded-pill on-badge';
                 badge.innerText = 'On';
             } else {
