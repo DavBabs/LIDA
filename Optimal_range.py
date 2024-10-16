@@ -22,6 +22,9 @@ o2_min = o2[0]
 o2_max = o2[1]
 ch4_min = ch4[0]
 ch4_max = ch4[1] 
+
+pump_on_seconds=900
+
                                
 #Termination Condition:
 # ≤40oC

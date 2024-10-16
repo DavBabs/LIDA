@@ -4,6 +4,7 @@ class CompostingEnv(gym.Env):
 
         # Define structured observation space
         self.observation_space = spaces.Dict({
+            "time":0,
             "temperature_active": spaces.Box(low=0, high=100, shape=(4,), dtype=np.float32),
             "temperature_curing": spaces.Box(low=0, high=100, shape=(2,), dtype=np.float32),
             "moisture_active": spaces.Box(low=0, high=100, shape=(2,), dtype=np.float32),

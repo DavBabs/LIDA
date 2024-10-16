@@ -1,5 +1,5 @@
-const int front = 14;
-const int back = 12;//assign relay INx pin to arduino pin
+const int front = 6;
+const int back = 7;//assign relay INx pin to arduino pin
 
 void setup() {
   // put your setup code here, to run once:

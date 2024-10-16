@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sensor Control</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h1>Sensor Control</h1>
+
+    <!-- Temperature Slider -->
+    <label for="temperatureRange" class="form-label">Temperature</label>
+    <input type="range" class="form-range" min="0" max="100" id="temperatureRange" oninput="checkValue('temperature', this.value)">
+    <span id="temperatureValue">50</span>
+    <br>
+
+    <!-- Moisture Slider -->
+    <label for="moistureRange" class="form-label mt-3">Moisture</label>
+    <input type="range" class="form-range" min="0" max="100" id="moistureRange" oninput="checkValue('moisture', this.value)">
+    <span id="moistureValue">50</span>
+    <br>
+
+    <!-- O2 Slider -->
+    <label for="o2Range" class="form-label mt-3">O2</label>
+    <input type="range" class="form-range" min="0" max="100" id="o2Range" oninput="checkValue('o2', this.value)">
+    <span id="o2Value">50</span>
+    <br>
+
+    <!-- CO2 Slider -->
+    <label for="co2Range" class="form-label mt-3">CO2</label>
+    <input type="range" class="form-range" min="0" max="5000" id="co2Range" oninput="checkValue('co2', this.value)">
+    <span id="co2Value">2500</span>
+    <br>
+
+    <!-- Methane Slider -->
+    <label for="methaneRange" class="form-label mt-3">Methane</label>
+    <input type="range" class="form-range" min="0" max="100" id="methaneRange" oninput="checkValue('methane', this.value)">
+    <span id="methaneValue">50</span>
+    <br>
+
+    <script>
+        function checkValue(sensor, value) {
+            document.getElementById(sensor + "Value").textContent = value;
+
+            fetch('/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sensor: sensor, value: parseInt(value) }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>

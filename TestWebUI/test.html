@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hardware Control and Sensors</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        p, h3 {
+            text-align: center;
+        }
+        .on-badge {
+            background-color: green;
+            color: white;
+        }
+        .off-badge {
+            background-color: red;
+            color: white;
+        }
+        .form-range {
+            width: 100%;
+        }
+        .logo {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto; /* Center the logo with margin */
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <!-- Logo Section -->
+    <img src="path/to/your/logo.png" alt="Logo" class="logo">
+
+    <div class="row">
+        <!-- Column 1: Motors and Air Pumps -->
+        <div class="col-md-4">
+            <h1 style="color: green; font-weight: bolder;">MOTORS:</h1>
+            <div class="card"> 
+                <h3>
+                    Motor 1 
+                    <span id="motor1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <p>Active Phase Paddle Motor.</p>
+                <button class="btn btn-outline-success" onclick="toggleMotor('motor1', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('motor1', 'off')">Off</button>
+            </div>
+            <div class="card mt-3"> 
+                <h3>
+                    Motor 2 
+                    <span id="motor2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <p>Active Phase Paddle Motor.</p>
+                <button class="btn btn-outline-success" onclick="toggleMotor('motor2', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('motor2', 'off')">Off</button>
+            </div>
+            
+            <h1 style="color: green; font-weight: bolder;">AIR PUMPS:</h1>
+            <div class="card">
+                <h3 style="text-align: center;">Active Phase</h3>
+                <hr> 
+                <h3>
+                    Compartment 1 
+                    <span id="airpump1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('airpump1', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('airpump1', 'off')">Off</button>
+                <br>
+                <h3>
+                    Compartment 2 
+                    <span id="airpump2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('airpump2', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('airpump2', 'off')">Off</button>
+            </div>
+            <div class="card mt-3">
+                <h3 style="text-align: center;">Curing Phase</h3>
+                <hr> 
+                <h3>
+                    Compartment 1 
+                    <span id="curing-airpump1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('curing-airpump1', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('curing-airpump1', 'off')">Off</button>
+                <br>
+                <h3>
+                    Compartment 2 
+                    <span id="curing-airpump2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('curing-airpump2', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('curing-airpump2', 'off')">Off</button>
+            </div>
+        </div>
+
+        <!-- Column 2: Linear Actuators -->
+        <div class="col-md-4">
+            <h1 style="color: green; font-weight: bolder;">LINEAR ACTUATORS:</h1>
+            <div class="card">
+                <h3>
+                    Actuator 1 
+                    <span id="actuator1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('actuator1', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('actuator1', 'off')">Off</button>
+                <br>
+                <h3>
+                    Actuator 2 
+                    <span id="actuator2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleMotor('actuator2', 'on')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleMotor('actuator2', 'off')">Off</button>
+            </div>
+        </div>
+
+        <!-- Column 3: Sensors -->
+        <div class="col-md-4">
+            <h1 style="color: green; font-weight: bolder;">SENSORS:</h1>
+            <!-- Temperature Slider -->
+            <div class="form-group">
+                <label for="temperatureRange" class="form-label">Temperature</label>
+                <input type="range" class="form-range" min="0" max="100" id="temperatureRange" oninput="checkValue('temperature', this.value)">
+                <span id="temperatureValue">50</span>
+            </div>
+
+            <!-- Moisture Slider -->
+            <div class="form-group">
+                <label for="moistureRange" class="form-label">Moisture</label>
+                <input type="range" class="form-range" min="0" max="100" id="moistureRange" oninput="checkValue('moisture', this.value)">
+                <span id="moistureValue">50</span>
+            </div>
+
+            <!-- O2 Slider -->
+            <div class="form-group">
+                <label for="o2Range" class="form-label">Oxygen (O2)</label>
+                <input type="range" class="form-range" min="0" max="100" id="o2Range" oninput="checkValue('o2', this.value)">
+                <span id="o2Value">50</span>
+            </div>
+
+            <!-- CO2 Slider -->
+            <div class="form-group">
+                <label for="co2Range" class="form-label">Carbon Dioxide (CO2)</label>
+                <input type="range" class="form-range" min="0" max="100" id="co2Range" oninput="checkValue('co2', this.value)">
+                <span id="co2Value">50</span>
+            </div>
+
+            <!-- Methane Slider -->
+            <div class="form-group">
+                <label for="methaneRange" class="form-label">Methane</label>
+                <input type="range" class="form-range" min="0" max="100" id="methaneRange" oninput="checkValue('methane', this.value)">
+                <span id="methaneValue">50</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMotor(motorId, action) {
+            const statusBadge = document.getElementById(`${motorId}-status`);
+
+            if (action === 'on') {
+                statusBadge.textContent = 'On';
+                statusBadge.classList.remove('off-badge');
+                statusBadge.classList.add('on-badge');
+            } else {
+                statusBadge.textContent = 'Off';
+                statusBadge.classList.remove('on-badge');
+                statusBadge.classList.add('off-badge');
+            }
+
+            // You can also send the command to the server or update the state accordingly
+        }
+
+        function checkValue(sensor, value) {
+            document.getElementById(`${sensor}Value`).textContent = value;
+
+            // Check if value exceeds threshold and send MQTT message if necessary
+            let threshold = 70; // example threshold value for triggering
+            if (sensor === 'temperature' && value > threshold) {
+                // Send MQTT message for temperature
+            } else if (sensor === 'moisture' && value > threshold) {
+                // Send MQTT message for moisture
+            } else if (sensor === 'o2' && value > threshold) {
+                // Send MQTT message for O2
+            } else if (sensor === 'co2' && value > threshold) {
+                // Send MQTT message for CO2
+            } else if (sensor === 'methane' && value > threshold) {
+                // Send MQTT message for methane
+            }
+        }
+    </script>
+</body>
+</html>

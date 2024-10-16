@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hardware Control and Sensors</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        p, h3 {
+            text-align: center;
+        }
+        .on-badge {
+            background-color: green;
+            color: white;
+        }
+        .off-badge {
+            background-color: red;
+            color: white;
+        }
+        .form-range {
+            width: 100%;
+        }
+        .logo {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto; /* Center the logo with margin */
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <!-- Logo Section -->
+    <img width="320px" height="auto" src="{{ url_for('static', filename='lida_full.png') }}" alt="Logo" class="logo">
+
+    <div class="row">
+        <!-- Column 1: Motors and Air Pumps -->
+        <div class="col-md-4">
+            <h3 style="color: green; font-weight: bolder;">MOTORS:</h3>
+            <div class="card"> 
+                <h3>
+                    Motor 1 
+                    <span id="motor1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <p>Active Phase Paddle Motor.</p>
+                <button class="btn btn-outline-success" onclick="toggleDevice('motor1', 'on', 'phase1')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('motor1', 'off', 'phase1')">Off</button>
+            </div>
+            <div class="card mt-3"> 
+                <h3>
+                    Motor 2 
+                    <span id="motor2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <p>Active Phase Paddle Motor.</p>
+                <button class="btn btn-outline-success" onclick="toggleDevice('motor2', 'on', 'phase2')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('motor2', 'off', 'phase2')">Off</button>
+            </div>
+            <br>
+            <h3 style="color: green; font-weight: bolder;">LINEAR ACTUATORS:</h3>
+            <div class="card">
+                <h4 style="text-align: center; font-weight: bolder;">
+                    Actuator 1 
+                    <span id="actuator1-status" class="badge rounded-pill off-badge">Off</span>
+                </h4>
+                <button class="btn btn-outline-success" onclick="toggleDevice('actuator1', 'extend', 'compartment1')">Extend</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('actuator1', 'retract', 'compartment1')">Retract</button>
+                <br>
+                <h4 style="text-align: center; font-weight: bolder;">
+                    Actuator 2 
+                    <span id="actuator2-status" class="badge rounded-pill off-badge">Off</span>
+                </h4>
+                <button class="btn btn-outline-success" onclick="toggleDevice('actuator2', 'extend', 'compartment2')">Extend</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('actuator2', 'retract', 'compartment2')">Retract</button>
+            </div>
+        </div>
+
+        <!-- Column 2: Airpumps -->
+        <div class="col-md-4">
+            <h3 style="color: green; font-weight: bolder;">AIR PUMPS:</h3>
+            <div class="card">
+                <h4 style="text-align: center; font-weight: bolder;">Active Phase</h4>
+                <h3>
+                    Compartment 1 
+                    <span id="airpump1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleDevice('airpump1', 'on', 'active')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('airpump1', 'off', 'active')">Off</button>
+                <br>
+                <h3>
+                    Compartment 2 
+                    <span id="airpump2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleDevice('airpump2', 'on', 'active')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('airpump2', 'off', 'active')">Off</button>
+            </div>
+            <br><br>
+            <div class="card mt-3">
+                <h4 style="text-align: center; font-weight: bolder;">Curing Phase</h4>
+                <h3>
+                    Compartment 1 
+                    <span id="curing-airpump1-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleDevice('curing-airpump1', 'on', 'curing')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('curing-airpump1', 'off', 'curing')">Off</button>
+                <br>
+                <h3>
+                    Compartment 2 
+                    <span id="curing-airpump2-status" class="badge rounded-pill off-badge">Off</span>
+                </h3>
+                <button class="btn btn-outline-success" onclick="toggleDevice('curing-airpump2', 'on', 'curing')">On</button>
+                <button class="btn btn-outline-danger" onclick="toggleDevice('curing-airpump2', 'off', 'curing')">Off</button>
+            </div>
+        </div>
+
+        <!-- Column 3: Sensors -->
+        <div class="col-md-4">
+            <h3 style="color: green; font-weight: bolder;">SENSORS:</h3>
+            <!-- Temperature Slider -->
+            <div class="form-group">
+                <label for="temperatureRange" class="form-label">Temperature</label>
+                <input type="range" class="form-range" min="0" max="100" id="temperatureRange" oninput="checkValue('temperature', this.value)">
+                <span id="temperatureValue">50</span>
+            </div>
+
+            <!-- Moisture Slider -->
+            <div class="form-group">
+                <label for="moistureRange" class="form-label">Moisture</label>
+                <input type="range" class="form-range" min="0" max="100" id="moistureRange" oninput="checkValue('moisture', this.value)">
+                <span id="moistureValue">50</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkValue(sensor, value) {
+            document.getElementById(sensor + 'Value').innerText = value;
+            sendSensorData(sensor, value);
+        }
+
+        function sendSensorData(sensor, value) {
+            fetch('/slider', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sensor: sensor, value: value })
+            });
+        }
+
+        function toggleDevice(device, action, phaseOrCompartment) {
+            let message = {};
+
+            if (device.startsWith('motor')) {
+                message = {
+                    "phase": phaseOrCompartment,
+                    "active": action
+                };
+            } else if (device.startsWith('airpump')) {
+                message = {
+                    "phase": phaseOrCompartment,
+                    "compartment": device.replace('airpump', ''),
+                    "active": action
+                };
+            } else if (device.startsWith('actuator')) {
+                message = {
+                    "compartment": phaseOrCompartment,
+                    "action": action  // 'extend' or 'retract'
+                };
+            }
+
+            fetch('/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message)
+            });
+
+            // Update UI
+            const statusId = device + '-status';
+            const badge = document.getElementById(statusId);
+            if (action === 'on' || action === 'extend') {
+                badge.className = 'badge rounded-pill on-badge';
+                badge.innerText = 'On';
+            } else {
+                badge.className = 'badge rounded-pill off-badge';
+                badge.innerText = 'Off';
+            }
+        }
+    </script>
+</body>
+</html>
