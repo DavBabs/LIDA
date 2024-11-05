@@ -20,7 +20,7 @@ class CompostingEnv(gym.Env):
             "methane": 0.23,
             "oxygen": 0.18,
             "temperature": 0.14,
-            "moisture": 0.1
+            "moisture": 0.13
         }
         self.optimal_ranges = {
             "temperature": (0, 40),
